@@ -1,0 +1,70 @@
+/* ====== TOÀN TRANG ====== */
+body {
+  background-color: #fff9f5;
+  color: #3a2c28;
+  font-family: "Poppins", "Noto Sans", sans-serif;
+  line-height: 1.8;
+  margin: 0;
+  padding: 0;
+}
+
+/* ====== HEADER ====== */
+header {
+  background: linear-gradient(135deg, #b1243b 0%, #c7634e 100%);
+  color: #fff9f5;
+  text-align: center;
+  padding: 2rem 0;
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 2.3rem;
+  margin-bottom: 0.5rem;
+}
+
+header p {
+  font-size: 1rem;
+  max-width: 700px;
+  margin: auto;
+  line-height: 1.6;
+}
+
+/* ====== NỘI DUNG ====== */
+section {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 1.5rem auto;
+  width: 90%;
+  max-width: 900px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+h2,
+h3 {
+  color: #a70303;
+}
+
+a {
+  color: #439ae1;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #b3503d;
+  text-decoration: underline;
+}
+
+/* ====== FOOTER ====== */
+footer {
+  background-color: #dc7677;
+  color: #f5ddf0;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 40px;
+  border-radius: 20px 20px 0 0;
+  font-size: 0.95rem;
+}

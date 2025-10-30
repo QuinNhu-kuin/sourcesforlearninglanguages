@@ -1,12 +1,10 @@
-// script.js — phiên bản tiếng Nhật (SRS + SpeechSynthesis API)
-// Đặt file này vào js/script.js
-
+// app_cn.js — SRS Tiếng Trung (localStorage riêng, SpeechSynthesis zh-CN)
 (() => {
-  const STORAGE_KEY = "quin_srs_jp_v1";
+  const STORAGE_KEY = "quin_srs_cn_v1";
   const msPerDay = 24 * 60 * 60 * 1000;
   const todayDays = () => Math.floor(Date.now() / msPerDay);
 
-  // SM-2
+  // SM-2 update (q values used: 0,2,3,4)
   function sm2Update(w, q) {
     if (!w) return;
     if (q < 3) {
@@ -31,7 +29,8 @@
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) db = JSON.parse(raw);
-    } catch {
+    } catch (e) {
+      console.error("load err", e);
       db = { words: [] };
     }
   }
@@ -40,18 +39,18 @@
     updateStats();
   }
 
-  // DOM
+  // DOM helpers
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => document.querySelectorAll(s);
 
-  const tabBtns = $$(".tab-btn");
-  const panels = $$(".tab");
+  // elements
+  const tabBtns = document.querySelectorAll(".tab-btn");
+  const panels = document.querySelectorAll(".tab");
 
-  const inpKanji = $("#inp-kanji");
-  const inpKana = $("#inp-kana");
+  const inpHanzi = $("#inp-hanzi");
+  const inpPinyin = $("#inp-pinyin");
   const inpMeaning = $("#inp-meaning");
   const inpExample = $("#inp-example");
-  const inpAudio = $("#inp-audio");
   const inpImage = $("#inp-image");
   const btnAdd = $("#btn-add");
   const addMsg = $("#addMsg");
@@ -59,21 +58,25 @@
   const dueCountEl = $("#dueCount");
   const noDueEl = $("#noDue");
   const cardEl = $("#card");
-  const cardKanji = $("#card-kanji");
-  const cardKana = $("#card-kana");
+  const cardHanzi = $("#card-hanzi");
+  const cardPinyin = $("#card-pinyin");
   const cardMeaning = $("#card-meaning");
   const cardExample = $("#card-example");
   const cardImageContainer = $("#card-image-container");
   const queueMeta = $("#queueMeta");
   const showMeaningBtn = $("#showMeaningBtn");
   const playAudioBtn = $("#playAudioBtn");
-  const gradeBtns = $$(".grade-btn");
+
+  const gradeBtns = document.querySelectorAll(".grade-btn");
+
   const wordTableBody = $("#wordTable tbody");
   const searchBox = $("#searchBox");
   const refreshListBtn = $("#refreshList");
+
   const statTotal = $("#statTotal");
   const statDue = $("#statDue");
   const chartEl = $("#chart");
+
   const exportBtn = $("#exportBtn");
   const importBtn = $("#importBtn");
   const importFile = $("#importFile");
@@ -82,24 +85,37 @@
   let queue = [],
     idx = 0;
 
+  // init
   load();
   bindTabs();
   updateStats();
   renderList();
   startLeafFall();
 
-  // 🔊 speech function
-  function speakJapanese(text) {
+  // speech
+  function speakChinese(text) {
     if (!text) return;
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = "ja-JP";
-    utter.rate = 1; // tốc độ bình thường
-    utter.pitch = 1; // cao độ tự nhiên
-    speechSynthesis.cancel(); // tránh chồng âm
-    speechSynthesis.speak(utter);
+    if (!("speechSynthesis" in window)) {
+      console.warn("SpeechSynthesis không được hỗ trợ trên trình duyệt này.");
+      return;
+    }
+    // cancel any ongoing speech to avoid overlap
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "zh-CN"; // dùng Mandarin (Trung Quốc). đổi 'zh-TW' nếu muốn giọng Đài Loan
+    u.rate = 0.98;
+    u.pitch = 1.0;
+    // prefer a voice that matches lang if available
+    const voices = speechSynthesis.getVoices();
+    if (voices && voices.length) {
+      const v =
+        voices.find((vv) => vv.lang && vv.lang.startsWith("zh")) || null;
+      if (v) u.voice = v;
+    }
+    speechSynthesis.speak(u);
   }
 
-  // TAB
+  // tab handling
   function bindTabs() {
     tabBtns.forEach((b) => {
       b.addEventListener("click", () => {
@@ -114,19 +130,19 @@
     });
   }
 
-  // ADD
+  // add
   btnAdd.addEventListener("click", () => {
-    const kanji = inpKanji.value.trim();
+    const hanzi = inpHanzi.value.trim();
     const meaning = inpMeaning.value.trim();
-    if (!kanji || !meaning) {
-      addMsg.textContent = "Kanji và Ý nghĩa là bắt buộc";
+    if (!hanzi || !meaning) {
+      addMsg.textContent = "Hán tự và Ý nghĩa là bắt buộc";
       setTimeout(() => (addMsg.textContent = ""), 1800);
       return;
     }
     const item = {
       id: Date.now(),
-      kanji,
-      kana: inpKana.value.trim(),
+      hanzi,
+      pinyin: inpPinyin.value.trim(),
       meaning,
       example: inpExample.value.trim(),
       imageUrl: inpImage.value.trim(),
@@ -137,20 +153,20 @@
     };
     db.words.push(item);
     save();
-    inpKanji.value =
-      inpKana.value =
+    inpHanzi.value =
+      inpPinyin.value =
       inpMeaning.value =
       inpExample.value =
       inpImage.value =
         "";
     addMsg.textContent = "Đã lưu ✓";
-    setTimeout(() => (addMsg.textContent = ""), 1500);
+    setTimeout(() => (addMsg.textContent = ""), 1400);
   });
 
-  // REVIEW
+  // review prepare
   function prepareReview() {
     queue = db.words.filter((w) => (w.next || 0) <= todayDays());
-    updateStats();
+    updateDueCount();
     if (!queue.length) {
       noDueEl.style.display = "block";
       cardEl.classList.add("hidden");
@@ -164,15 +180,14 @@
   function showCard() {
     const w = queue[idx];
     if (!w) return;
-    cardKanji.textContent = w.kanji;
-    cardKana.textContent = w.kana || "";
+    cardHanzi.textContent = w.hanzi;
+    cardPinyin.textContent = w.pinyin || "";
     cardMeaning.textContent = w.meaning || "";
     cardExample.textContent = w.example || "";
-    cardKana.classList.add("hidden");
+    cardPinyin.classList.add("hidden");
     cardMeaning.classList.add("hidden");
     cardExample.classList.add("hidden");
     cardImageContainer.innerHTML = "";
-
     if (w.imageUrl) {
       const img = document.createElement("img");
       img.src = w.imageUrl;
@@ -185,19 +200,20 @@
       cardImageContainer.appendChild(img);
     }
 
+    // ensure play button present and uses speechSynthesis
     playAudioBtn.classList.remove("hidden");
     playAudioBtn.onclick = () => {
-      const text = w.kana || w.kanji || "";
-      speakJapanese(text);
+      const text = w.pinyin || w.hanzi || "";
+      speakChinese(text);
     };
 
     queueMeta.textContent = `Từ ${idx + 1}/${queue.length}`;
     cardEl.classList.remove("hidden");
   }
 
-  // SHOW MEANING
+  // reveal meaning & auto speak
   showMeaningBtn.addEventListener("click", () => {
-    cardKana.classList.remove("hidden");
+    cardPinyin.classList.remove("hidden");
     cardMeaning.classList.remove("hidden");
     cardExample.classList.remove("hidden");
     const img = cardImageContainer.querySelector("img");
@@ -205,16 +221,16 @@
 
     const w = queue[idx];
     if (!w) return;
-    speakJapanese(w.kana || w.kanji || "");
+    speakChinese(w.pinyin || w.hanzi || "");
   });
 
-  // GRADE
-  gradeBtns.forEach((btn) =>
+  // grading
+  gradeBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       const q = Number(btn.dataset.q);
       gradeCurrent(q);
-    })
-  );
+    });
+  });
 
   function gradeCurrent(q) {
     const w = queue[idx];
@@ -231,39 +247,36 @@
     }
   }
 
-  // LIST
+  // list render & search
   function renderList(filter = "") {
     wordTableBody.innerHTML = "";
     const f = filter.trim().toLowerCase();
     const words = db.words
       .slice()
-      .sort((a, b) => (a.kanji || "").localeCompare(b.kanji || ""));
+      .sort((a, b) => (a.hanzi || "").localeCompare(b.hanzi || ""));
     if (!words.length) {
       wordTableBody.innerHTML =
         '<tr><td colspan="8" class="muted">Chưa có từ nào.</td></tr>';
       return;
     }
-
     for (const w of words) {
       if (
         f &&
         !(
-          (w.kanji || "").toLowerCase().includes(f) ||
-          (w.kana || "").toLowerCase().includes(f) ||
+          (w.hanzi || "").toLowerCase().includes(f) ||
+          (w.pinyin || "").toLowerCase().includes(f) ||
           (w.meaning || "").toLowerCase().includes(f)
         )
       )
         continue;
-
       const tr = document.createElement("tr");
       const nextDate = new Date((w.next || todayDays()) * msPerDay);
       const nextStr = `${nextDate.getDate()}/${
         nextDate.getMonth() + 1
       }/${nextDate.getFullYear()}`;
-
       tr.innerHTML = `
-        <td>${escapeHtml(w.kanji)}</td>
-        <td>${escapeHtml(w.kana || "")}</td>
+        <td>${escapeHtml(w.hanzi)}</td>
+        <td>${escapeHtml(w.pinyin || "")}</td>
         <td>${escapeHtml(w.meaning || "")}</td>
         <td>${escapeHtml(w.example || "")}</td>
         <td>${
@@ -280,17 +293,17 @@
       wordTableBody.appendChild(tr);
     }
 
-    // phát âm hàng
+    // attach play events
     $$(".play-row").forEach((btn) => {
       btn.addEventListener("click", () => {
         const id = Number(btn.dataset.id);
         const w = db.words.find((x) => x.id === id);
         if (!w) return;
-        speakJapanese(w.kana || w.kanji || "");
+        speakChinese(w.pinyin || w.hanzi || "");
       });
     });
 
-    // xóa hàng
+    // attach delete events
     $$(".delete-row").forEach((btn) => {
       btn.addEventListener("click", () => {
         const id = Number(btn.dataset.id);
@@ -308,7 +321,7 @@
   refreshListBtn.addEventListener("click", () => renderList(searchBox.value));
   searchBox.addEventListener("input", () => renderList(searchBox.value));
 
-  // STATS
+  // stats
   function updateStats() {
     statTotal.textContent = db.words.length;
     const due = db.words.filter((w) => (w.next || 0) <= todayDays()).length;
@@ -333,14 +346,14 @@
     });
   }
 
-  // EXPORT / IMPORT / CLEAR
+  // export / import / clear
   exportBtn.addEventListener("click", () => {
     const blob = new Blob([JSON.stringify(db, null, 2)], {
       type: "application/json",
     });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "quin_srs_jp_backup.json";
+    a.download = "quin_srs_cn_backup.json";
     a.click();
   });
 
@@ -357,7 +370,7 @@
         renderList();
         alert("Nhập JSON thành công");
       } else alert('File không đúng định dạng (cần key "words")');
-    } catch {
+    } catch (err) {
       alert("Không đọc được file JSON");
     }
   });
@@ -370,20 +383,26 @@
     prepareReview();
   });
 
-  // HELPERS
+  // helpers
   function escapeHtml(s) {
-    return String(s || "").replace(/[&<>"']/g, (m) => {
-      return {
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;",
-      }[m];
-    });
+    return String(s || "").replace(
+      /[&<>"']/g,
+      (m) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        }[m])
+    );
   }
 
-  // 🍃 leaf fall
+  function updateDueCount() {
+    updateStats();
+  }
+
+  // decorative leaf
   function startLeafFall() {
     const container = document.querySelector(".rose-container");
     if (!container) return;
@@ -402,6 +421,25 @@
     }, 450);
   }
 
+  // initial renders
   renderList();
   updateStats();
+})();
+// 🌗 Theme toggle (day/night)
+(() => {
+  const btn = document.getElementById("themeToggle");
+  if (!btn) return;
+
+  // load trạng thái từ localStorage
+  const saved = localStorage.getItem("quin_theme_cn") || "light";
+  if (saved === "dark") {
+    document.body.classList.add("dark");
+    btn.textContent = "☀️ Chế độ ngày";
+  }
+
+  btn.addEventListener("click", () => {
+    const isDark = document.body.classList.toggle("dark");
+    localStorage.setItem("quin_theme_cn", isDark ? "dark" : "light");
+    btn.textContent = isDark ? "☀️ Chế độ ngày" : "🌙 Chế độ đêm";
+  });
 })();

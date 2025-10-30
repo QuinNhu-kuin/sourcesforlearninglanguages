@@ -4,24 +4,21 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>SRS Tiếng Nhật — Quin</title>
+    <title>🍃 SRS Tiếng Trung — Quin</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <header>
-        <h1>🍃 SRS Tiếng Nhật — Quin</h1>
-        <nav class="navbar">
-            <a href="indexjp.html">
-                🏠 Nguồn học
-            </a>
-        </nav>
-        <div class="header-controls">
+        <h1>🍃 SRS Tiếng Trung — Quin</h1>
 
+        <div class="header-controls">
             <button id="exportBtn" class="small">Xuất JSON</button>
             <input id="importFile" type="file" accept=".json" class="hidden" />
             <button id="importBtn" class="small">Nhập JSON</button>
             <button id="clearAll" class="danger small">Xóa tất cả</button>
+            <button id="themeToggle" class="small">🌙 Chế độ đêm</button>
+
         </div>
     </header>
 
@@ -35,21 +32,19 @@
 
         <!-- Thêm từ -->
         <section id="tab-add" class="tab active">
-            <h2>Thêm từ tiếng Nhật</h2>
+            <h2>Thêm từ tiếng Trung</h2>
             <div class="grid">
                 <div>
-                    <label>Kanji / Từ (bắt buộc)</label>
-                    <input id="inp-kanji" placeholder="VD: 学生">
-                    <label>Kana (hiragana/katakana)</label>
-                    <input id="inp-kana" placeholder="VD: がくせい">
+                    <label>Hán tự / Từ (bắt buộc)</label>
+                    <input id="inp-hanzi" placeholder="VD: 学生">
+                    <label>Pinyin</label>
+                    <input id="inp-pinyin" placeholder="VD: xuéshēng">
                     <label>Ý nghĩa (VN/EN) (bắt buộc)</label>
                     <input id="inp-meaning" placeholder="VD: học sinh">
                 </div>
                 <div>
-                    <label>Ví dụ (ví dụ: 私は学生です)</label>
+                    <label>Ví dụ (ví dụ: 我是学生)</label>
                     <textarea id="inp-example" rows="4" placeholder="Ví dụ sử dụng từ"></textarea>
-                    <label>Link audio (mp3/wav) — tuỳ chọn</label>
-                    <input id="inp-audio" placeholder="https://.../sound.mp3">
                     <label>Link ảnh minh hoạ (jpg/png) — tuỳ chọn</label>
                     <input id="inp-image" placeholder="https://.../img.jpg">
                 </div>
@@ -70,8 +65,8 @@
                     <div class="card-top">
                         <div id="card-image-container"></div>
                         <div>
-                            <div id="card-kanji" class="kanji"></div>
-                            <div id="card-kana" class="kana hidden"></div>
+                            <div id="card-hanzi" class="kanji"></div>
+                            <div id="card-pinyin" class="kana hidden"></div>
                             <div id="card-meaning" class="meaning hidden"></div>
                             <div id="card-example" class="example hidden"></div>
                         </div>
@@ -99,7 +94,7 @@
         <section id="tab-list" class="tab">
             <h2>📚 Danh sách từ đã lưu</h2>
             <div class="row" style="margin-bottom:8px;">
-                <input id="searchBox" placeholder="Tìm theo Kanji / Kana / Nghĩa" style="flex:1">
+                <input id="searchBox" placeholder="Tìm theo Hán tự / Pinyin / Nghĩa" style="flex:1">
                 <button id="refreshList" class="small">Làm mới</button>
             </div>
 
@@ -107,8 +102,8 @@
                 <table id="wordTable">
                     <thead>
                         <tr>
-                            <th>Kanji</th>
-                            <th>Kana</th>
+                            <th>Hán tự</th>
+                            <th>Pinyin</th>
                             <th>Ý nghĩa</th>
                             <th>Ví dụ</th>
                             <th>Ảnh</th>
@@ -128,7 +123,6 @@
             <p>Tổng số từ: <b id="statTotal">0</b> · Đến hạn hôm nay: <b id="statDue">0</b></p>
             <div class="chart" id="chart"></div>
         </section>
-
     </main>
 
 

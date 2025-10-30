@@ -1,134 +1,146 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>SRS Tiếng Nhật — Quin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kho tài liệu học ngôn ngữ của Quin</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+
 </head>
 
 <body>
     <header>
-        <h1>🍃 SRS Tiếng Nhật — Quin</h1>
-        <div class="header-controls">
-            <button id="exportBtn" class="small">Xuất JSON</button>
-            <input id="importFile" type="file" accept=".json" class="hidden" />
-            <button id="importBtn" class="small">Nhập JSON</button>
-            <button id="clearAll" class="danger small">Xóa tất cả</button>
-        </div>
+        <h1>🌸 Kho lưu nguồn học ngôn ngữ của Quin 🌸</h1>
+        <p>
+            人的一生也就两件事该做：
+            一种是高线，另一种是读书。
+            高线是让别人不敢为难自己，
+            读书让自己不再为难自己。
+        </p>
+
+
     </header>
 
-    <main class="wrap">
-        <nav class="tabs">
-            <button class="tab-btn active" data-target="tab-add">➕ Thêm từ</button>
-            <button class="tab-btn" data-target="tab-review">📘 Ôn tập</button>
-            <button class="tab-btn" data-target="tab-list">📚 Danh sách</button>
-            <button class="tab-btn" data-target="tab-stats">📊 Thống kê</button>
-        </nav>
 
-        <!-- Thêm từ -->
-        <section id="tab-add" class="tab active">
-            <h2>Thêm từ tiếng Nhật</h2>
-            <div class="grid">
-                <div>
-                    <label>Kanji / Từ (bắt buộc)</label>
-                    <input id="inp-kanji" placeholder="VD: 学生">
-                    <label>Kana (hiragana/katakana)</label>
-                    <input id="inp-kana" placeholder="VD: がくせい">
-                    <label>Ý nghĩa (VN/EN) (bắt buộc)</label>
-                    <input id="inp-meaning" placeholder="VD: học sinh">
-                </div>
-                <div>
-                    <label>Ví dụ (ví dụ: 私は学生です)</label>
-                    <textarea id="inp-example" rows="4" placeholder="Ví dụ sử dụng từ"></textarea>
-                    <label>Link audio (mp3/wav) — tuỳ chọn</label>
-                    <input id="inp-audio" placeholder="https://.../sound.mp3">
-                    <label>Link ảnh minh hoạ (jpg/png) — tuỳ chọn</label>
-                    <input id="inp-image" placeholder="https://.../img.jpg">
-                </div>
-            </div>
-            <div class="row">
-                <button id="btn-add" class="cta">Lưu từ</button>
-                <div id="addMsg" class="small muted" aria-live="polite"></div>
-            </div>
+    <main>
+        <section class="japanese">
+            <h2>🇯🇵 Tiếng Nhật</h2>
+            <nav class="navbar">
+                <a href="index.html">🏠 học từ vựng tiếng nhật qua phương pháp lặp lại ngắt quãng</a>
+            </nav>
+            <ul>
+                <li><a href="https://jlpt.jp/" target="_blank">Trang chính JLPT</a></li>
+                <li><a href="https://www3.nhk.or.jp/nhkworld/vi/learnjapanese/" target="_blank">NHK World - Learn
+                        Japanese</a></li>
+                <li><a href="https://www.edewakaru.com/" target="_blank">Edewakaru - Học ngữ pháp qua tranh minh họa</a>
+                </li>
+                <li><a href="https://fortiesmedia.com/" target="_blank">Fortiesmedia Blog - luyện đọc qua blog</a></li>
+                <li><a href="https://tadoku.org/japanese/free-books/" target="_blank">多読書ーLuyện đọc miễn phí theo
+                        level</a></li>
+            </ul>
+
+            <p>🎧 Các kênh podcast thường nghe trên Spotify</p>
+            <ul>
+                <li><a href="https://open.spotify.com/show/0hQDsR0brfk88Nls8fydo4?si=0cdbd199c4504909"
+                        target="_blank">yuyuの日本語podcast</a></li>
+                <li><a href="https://open.spotify.com/show/1gQ0ZdFpTOqiyLeOaCCn6U" target="_blank">Haru no nihongo</a>
+                </li>
+                <li><a href="https://open.spotify.com/show/53wHZqGINfjubznMjLXTz2" target="_blank">Japanese with K</a>
+                </li>
+                <p>các kênh youtube </p>
+                <li><a href="https://www.youtube.com/@ferumi/playlists" target="_blank">フェルミ漫画大学
+                    </a>
+                </li>
+                <li><a href="https://www.youtube.com/@ryogakucho " target="_blank">両学長 リベラルアーツ大学
+                    </a>
+                </li>
+
+            </ul>
         </section>
 
-        <!-- Ôn tập -->
-        <section id="tab-review" class="tab">
-            <h2>Ôn tập hôm nay <span id="dueCount" class="small muted"></span></h2>
-            <div id="reviewArea">
-                <div id="noDue" class="muted">Không có từ đến hạn hôm nay 🎉</div>
+        <section class="chinese">
+            <h2>🇨🇳 Tiếng Trung</h2>
+            <ul>
+                <li><a href="https://hanzii.net/?hl=en" target="_blank">App từ điển Hanzii</a></li>
+                <li><a href="https://accentlab.net/mandarin_words#" target="_blank">Check accent</a></li>
+                <li><a href="https://chinesepod.com/" target="_blank">ChinesePod - Nghe hội thoại thực tế</a></li>
+                <li><a href="https://mandarinbean.com/all-lessons/?crts=1707148836" target="_blank">MandarinBean - luyện
+                        đọc theo level kèm file nghe</a></li>
+                <li><a href="https://daziya.com/courses/" target="_blank">Luyện gõ bàn phím Chinese</a></li>
+            </ul>
 
-                <div id="card" class="card hidden">
-                    <div class="card-top">
-                        <div id="card-image-container"></div>
-                        <div>
-                            <div id="card-kanji" class="kanji"></div>
-                            <div id="card-kana" class="kana hidden"></div>
-                            <div id="card-meaning" class="meaning hidden"></div>
-                            <div id="card-example" class="example hidden"></div>
-                        </div>
-                    </div>
+            <p><strong>Nguồn luyện nghe:</strong></p>
+            <ul>
+                <li><a href="https://open.spotify.com/show/1Id0UxjLX4msbvofGl6uMX" target="_blank">ChinesePod - luyện
+                        nghe</a></li>
+                <li><a href="https://www.youtube.com/watch?v=2bNlv150OiU&list=PLAYsExEPdm1BWWKXlu-z7zRD_ljleT7mD&index=2"
+                        target="_blank">Một bông hoa - podcast on YouTube</a></li>
+            </ul>
 
-                    <div class="card-meta">
-                        <div id="queueMeta" class="small muted"></div>
-                        <div class="controls-inline">
-                            <button id="playAudioBtn" class="icon-btn hidden" title="Phát âm">🔊</button>
-                            <button id="showMeaningBtn" class="small">Hiện nghĩa</button>
-                        </div>
-                    </div>
+            <p><strong>File tài liệu:</strong></p>
+            <ul>
+                <li><a href="https://drive.google.com/drive/u/0/folders/1Lf5n66EWK9t4xJSdjeNEejQ56ScuhPYm"
+                        target="_blank">File sách từ A1–C2</a></li>
+                <li><a href="https://anyflip.com/bookcase/firak/" target="_blank">File sách từ HSK1–HSK6</a></li>
+            </ul>
 
-                    <div class="grade-row">
-                        <button class="grade-btn" data-q="0">Quên</button>
-                        <button class="grade-btn" data-q="2">Khó</button>
-                        <button class="grade-btn" data-q="3">Tốt</button>
-                        <button class="grade-btn" data-q="4">Dễ</button>
-                    </div>
-                </div>
-            </div>
+            <p><strong>🎬 My favorite game shows:</strong></p>
+            <ul>
+                <li><a href="https://youtu.be/aUYKhHCXlfo" target="_blank">NGÔ LỖI VLOG EP01 – RIDE WITH THIS REASON
+                        2</a></li>
+                <li><a href="https://youtube.com/playlist?list=PL3cBsgYtbV-xd3XzuGzTSSQ4AVuRn0u6U" target="_blank">Hướng
+                        về cuộc sống mùa 3</a></li>
+                <li><a href="https://youtube.com/playlist?list=PLECnjrw7SlOZMcYWKZo-KwTYjzizedZ_g" target="_blank">Keep
+                        Running Man mùa 13</a></li>
+                <li><a href="https://youtube.com/playlist?list=PL66JnDyk2r_DAC83lvYCd1Oer0FaLfZL7" target="_blank">Bây
+                        giờ xuất phát nào mùa 2</a></li>
+            </ul>
+            <p><em>Còn nhiều quá không liệt kê hết nổi 😄</em></p>
         </section>
 
-        <!-- Danh sách -->
-        <section id="tab-list" class="tab">
-            <h2>📚 Danh sách từ đã lưu</h2>
-            <div class="row" style="margin-bottom:8px;">
-                <input id="searchBox" placeholder="Tìm theo Kanji / Kana / Nghĩa" style="flex:1">
-                <button id="refreshList" class="small">Làm mới</button>
-            </div>
+        <section class="english">
+            <h2>🇬🇧 Tiếng Anh</h2>
+            <ul>
+                <li><a href="http://lopngoaingu.com/3000_cau_tieng_anh_thong_dung/vocab.php" target="_blank">All in
+                        one</a></li>
+                <li><a href="https://www.ted.com/" target="_blank">TED Talks - Luyện nghe và ý tưởng</a></li>
+                <li><a href="https://www.englishclub.com/" target="_blank">EnglishClub - Học ngữ pháp, nghe, nói</a>
+                </li>
+                <li><a href="https://test-english.com/" target="_blank">Test trình độ</a></li>
+                <li><a href="https://www.bbc.co.uk/learningenglish" target="_blank">BBC Learning English</a></li>
 
-            <div class="table-wrap">
-                <table id="wordTable">
-                    <thead>
-                        <tr>
-                            <th>Kanji</th>
-                            <th>Kana</th>
-                            <th>Ý nghĩa</th>
-                            <th>Ví dụ</th>
-                            <th>Ảnh</th>
-                            <th>Next</th>
-                            <th>🔊</th>
-                            <th>❌</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
+                <li><a href="https://elllo.org/" target="_blank">ELLLO - Listening practice</a></li>
+                <li><a href="https://dailydictation.com/exercises/english-conversations/2-at-home-2.400/listen-and-type"
+                        target="_blank">DailyDictation - Nghe chép chính tả</a></li>
+                <li><a href="https://docs.google.com/spreadsheets/d/1kbxGqJkM22_W3yPB2VCjqW20IMVjkqWz6wAYXCXMhMw/view?gid=0#gid=0"
+                        target="_blank">Tài liệu PDF Learning English</a></li>
+            </ul>
         </section>
 
-        <!-- Thống kê -->
-        <section id="tab-stats" class="tab">
-            <h2>📊 Thống kê</h2>
-            <p>Tổng số từ: <b id="statTotal">0</b> · Đến hạn hôm nay: <b id="statDue">0</b></p>
-            <div class="chart" id="chart"></div>
-        </section>
+        <section class="others">
+            <h2>📚 Tổng hợp khác </h2>
+            <ul>
+                <li><a href="https://ankiweb.net/shared/decks/" target="_blank">Anki Shared Decks - Bộ flashcard sẵn
+                        có</a></li>
+                <li><a href="https://duolingo.com/" target="_blank">Duolingo - Luyện tập hằng ngày</a></li>
+                <li><a href="https://learn.mochidemy.com/notebook/word-active?platform=extension"
+                        target="_blank">MochiMochi-app học từ vựng có trả phí</a></li>
+                <li><a href="reahttps://www.languagereactor.com " target="_blank">Language reactor- tiện ích giúp xem
+                        video có phụ đề trên youtube& nexflix</a></li>
+            </ul>
 
+        </section>
     </main>
 
-
-    <div class="rose-container" aria-hidden="true"></div>
-
-    <script src="app.js"></script>
+    <footer>
+        <p>🌷 Được tạo bởi Quin · Cập nhật lần cuối: Tháng 10, 2025</p>
+    </footer>
 </body>
 
 </html>

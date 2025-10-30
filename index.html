@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>SRS Tiếng Nhật — Quin</title>
+    <title>Spaced Repetition 日本語版</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <header>
-        <h1>🍃 SRS Tiếng Nhật — Quin</h1>
+        <h1>🍃 Spaced Repetition 日本語版</h1>
         <nav class="navbar">
             <a href="indexjp.html">
                 🏠 Nguồn học
@@ -22,7 +22,7 @@
             <input id="importFile" type="file" accept=".json" class="hidden" />
             <button id="importBtn" class="small">Nhập JSON</button>
             <button id="clearAll" class="danger small">Xóa tất cả</button>
-            <button id="themeToggle" class="small">🌙 Chế độ đêm</button>
+            <button id="themeToggle" class="small">🌙 Dark mode</button>
 
         </div>
     </header>
@@ -40,19 +40,19 @@
             <h2>Thêm từ tiếng Nhật</h2>
             <div class="grid">
                 <div>
-                    <label>Kanji / Từ (bắt buộc)</label>
+                    <label>漢字 / 単語 </label>
                     <input id="inp-kanji" placeholder="VD: 学生">
                     <label>Kana (hiragana/katakana)</label>
                     <input id="inp-kana" placeholder="VD: がくせい">
-                    <label>Ý nghĩa (VN/EN) (bắt buộc)</label>
+                    <label>意味</label>
                     <input id="inp-meaning" placeholder="VD: học sinh">
                 </div>
                 <div>
-                    <label>Ví dụ (ví dụ: 私は学生です)</label>
+                    <label>例 (ví dụ: 私は学生です)</label>
                     <textarea id="inp-example" rows="4" placeholder="Ví dụ sử dụng từ"></textarea>
                     <label>Link audio (mp3/wav) — tuỳ chọn</label>
                     <input id="inp-audio" placeholder="https://.../sound.mp3">
-                    <label>Link ảnh minh hoạ (jpg/png) — tuỳ chọn</label>
+                    <label>Link ảnh minh hoạ (jpg/png)</label>
                     <input id="inp-image" placeholder="https://.../img.jpg">
                 </div>
             </div>

@@ -1,12 +1,11 @@
 // script.js — phiên bản tiếng Nhật (SRS + SpeechSynthesis API)
-// Đặt file này vào js/script.js
-
 (() => {
   const STORAGE_KEY = "quin_srs_jp_v1";
+  const THEME_KEY = "quin_theme_jp";
   const msPerDay = 24 * 60 * 60 * 1000;
   const todayDays = () => Math.floor(Date.now() / msPerDay);
 
-  // SM-2
+  // ======= SuperMemo-2 Algorithm =======
   function sm2Update(w, q) {
     if (!w) return;
     if (q < 3) {
@@ -25,7 +24,7 @@
     w.next = todayDays() + (w.interval || 1);
   }
 
-  // storage
+  // ======= Storage =======
   let db = { words: [] };
   function load() {
     try {
@@ -35,23 +34,22 @@
       db = { words: [] };
     }
   }
+
   function save() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
     updateStats();
   }
 
-  // DOM
+  // ======= DOM =======
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => document.querySelectorAll(s);
 
   const tabBtns = $$(".tab-btn");
   const panels = $$(".tab");
-
   const inpKanji = $("#inp-kanji");
   const inpKana = $("#inp-kana");
   const inpMeaning = $("#inp-meaning");
   const inpExample = $("#inp-example");
-  const inpAudio = $("#inp-audio");
   const inpImage = $("#inp-image");
   const btnAdd = $("#btn-add");
   const addMsg = $("#addMsg");
@@ -78,35 +76,40 @@
   const importBtn = $("#importBtn");
   const importFile = $("#importFile");
   const clearAllBtn = $("#clearAll");
+  const themeBtn = $("#themeToggle");
 
-  let queue = [],
-    idx = 0;
+  let queue = [];
+  let idx = 0;
 
+  // ======= Init =======
   load();
   bindTabs();
   updateStats();
   renderList();
   startLeafFall();
+  setupTheme();
 
-  // 🔊 speech function
+  // ======= Speech =======
   function speakJapanese(text) {
     if (!text) return;
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = "ja-JP";
-    utter.rate = 1; // tốc độ bình thường
-    utter.pitch = 1; // cao độ tự nhiên
-    speechSynthesis.cancel(); // tránh chồng âm
+    utter.rate = 1;
+    utter.pitch = 1;
+    speechSynthesis.cancel();
     speechSynthesis.speak(utter);
   }
 
-  // TAB
+  // ======= Tabs =======
   function bindTabs() {
     tabBtns.forEach((b) => {
       b.addEventListener("click", () => {
         tabBtns.forEach((x) => x.classList.remove("active"));
         panels.forEach((p) => p.classList.remove("active"));
         b.classList.add("active");
-        document.getElementById(b.dataset.target).classList.add("active");
+        const target = document.getElementById(b.dataset.target);
+        if (target) target.classList.add("active");
+
         if (b.dataset.target === "tab-list") renderList();
         if (b.dataset.target === "tab-stats") drawChart();
         if (b.dataset.target === "tab-review") prepareReview();
@@ -114,7 +117,7 @@
     });
   }
 
-  // ADD
+  // ======= Add new word =======
   btnAdd.addEventListener("click", () => {
     const kanji = inpKanji.value.trim();
     const meaning = inpMeaning.value.trim();
@@ -147,7 +150,7 @@
     setTimeout(() => (addMsg.textContent = ""), 1500);
   });
 
-  // REVIEW
+  // ======= Review mode =======
   function prepareReview() {
     queue = db.words.filter((w) => (w.next || 0) <= todayDays());
     updateStats();
@@ -185,30 +188,23 @@
       cardImageContainer.appendChild(img);
     }
 
-    playAudioBtn.classList.remove("hidden");
-    playAudioBtn.onclick = () => {
-      const text = w.kana || w.kanji || "";
-      speakJapanese(text);
-    };
-
+    playAudioBtn.onclick = () => speakJapanese(w.kana || w.kanji || "");
     queueMeta.textContent = `Từ ${idx + 1}/${queue.length}`;
     cardEl.classList.remove("hidden");
   }
 
-  // SHOW MEANING
+  // ======= Show Meaning =======
   showMeaningBtn.addEventListener("click", () => {
     cardKana.classList.remove("hidden");
     cardMeaning.classList.remove("hidden");
     cardExample.classList.remove("hidden");
     const img = cardImageContainer.querySelector("img");
     if (img) img.classList.remove("hidden");
-
     const w = queue[idx];
-    if (!w) return;
-    speakJapanese(w.kana || w.kanji || "");
+    if (w) speakJapanese(w.kana || w.kanji || "");
   });
 
-  // GRADE
+  // ======= Grade =======
   gradeBtns.forEach((btn) =>
     btn.addEventListener("click", () => {
       const q = Number(btn.dataset.q);
@@ -231,7 +227,7 @@
     }
   }
 
-  // LIST
+  // ======= List =======
   function renderList(filter = "") {
     wordTableBody.innerHTML = "";
     const f = filter.trim().toLowerCase();
@@ -280,17 +276,14 @@
       wordTableBody.appendChild(tr);
     }
 
-    // phát âm hàng
     $$(".play-row").forEach((btn) => {
       btn.addEventListener("click", () => {
         const id = Number(btn.dataset.id);
         const w = db.words.find((x) => x.id === id);
-        if (!w) return;
-        speakJapanese(w.kana || w.kanji || "");
+        if (w) speakJapanese(w.kana || w.kanji || "");
       });
     });
 
-    // xóa hàng
     $$(".delete-row").forEach((btn) => {
       btn.addEventListener("click", () => {
         const id = Number(btn.dataset.id);
@@ -308,12 +301,12 @@
   refreshListBtn.addEventListener("click", () => renderList(searchBox.value));
   searchBox.addEventListener("input", () => renderList(searchBox.value));
 
-  // STATS
+  // ======= Stats =======
   function updateStats() {
     statTotal.textContent = db.words.length;
     const due = db.words.filter((w) => (w.next || 0) <= todayDays()).length;
     statDue.textContent = due;
-    dueCountEl.textContent = `(${due} từ đến hạn)`;
+    if (dueCountEl) dueCountEl.textContent = `(${due} từ đến hạn)`;
   }
 
   function drawChart() {
@@ -333,7 +326,7 @@
     });
   }
 
-  // EXPORT / IMPORT / CLEAR
+  // ======= Export / Import / Clear =======
   exportBtn.addEventListener("click", () => {
     const blob = new Blob([JSON.stringify(db, null, 2)], {
       type: "application/json",
@@ -355,7 +348,7 @@
         db = data;
         save();
         renderList();
-        alert("Nhập JSON thành công");
+        alert("Nhập JSON thành công ✓");
       } else alert('File không đúng định dạng (cần key "words")');
     } catch {
       alert("Không đọc được file JSON");
@@ -363,14 +356,14 @@
   });
 
   clearAllBtn.addEventListener("click", () => {
-    if (!confirm("Xoá toàn bộ từ? (không thể undo)")) return;
+    if (!confirm("Xoá toàn bộ từ? (không thể hoàn tác)")) return;
     db.words = [];
     save();
     renderList();
     prepareReview();
   });
 
-  // HELPERS
+  // ======= Helpers =======
   function escapeHtml(s) {
     return String(s || "").replace(/[&<>"']/g, (m) => {
       return {
@@ -383,7 +376,7 @@
     });
   }
 
-  // 🍃 leaf fall
+  // ======= Rose Fall Animation =======
   function startLeafFall() {
     const container = document.querySelector(".rose-container");
     if (!container) return;
@@ -402,24 +395,18 @@
     }, 450);
   }
 
-  renderList();
-  updateStats();
-})();
-// 🌗 Theme toggle (day/night)
-(() => {
-  const btn = document.getElementById("themeToggle");
-  if (!btn) return;
-
-  // load trạng thái từ localStorage
-  const saved = localStorage.getItem("quin_theme_cn") || "light";
-  if (saved === "dark") {
-    document.body.classList.add("dark");
-    btn.textContent = "☀️ Chế độ ngày";
+  // ======= Theme Toggle =======
+  function setupTheme() {
+    if (!themeBtn) return;
+    const saved = localStorage.getItem(THEME_KEY) || "light";
+    if (saved === "dark") {
+      document.body.classList.add("dark");
+      themeBtn.textContent = "☀️ Chế độ ngày";
+    }
+    themeBtn.addEventListener("click", () => {
+      const isDark = document.body.classList.toggle("dark");
+      localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
+      themeBtn.textContent = isDark ? "☀️ Chế độ ngày" : "🌙 Chế độ đêm";
+    });
   }
-
-  btn.addEventListener("click", () => {
-    const isDark = document.body.classList.toggle("dark");
-    localStorage.setItem("quin_theme_cn", isDark ? "dark" : "light");
-    btn.textContent = isDark ? "☀️ Chế độ ngày" : "🌙 Chế độ đêm";
-  });
 })();

@@ -1,51 +1,68 @@
 :root {
-  --main: #a7c7e7;
-  --main-dark: #8fb7db;
-  --bg: #f6fafd;
-  --card: #ffffff;
-  --text: #2e4057;
-  --muted: #708090;
-  --danger: #e57373;
+  /* 🌊 Calm Ocean Palette */
+  --main: #265381; /* xanh dương phấn */
+  --main-dark: #1c313d; /* xanh biển nhấn đậm */
+  --bg: #f3f6f7; /* nền lam nhạt */
+  --card: #dcdbe6; /* nền thẻ */
+  --text: #2e4057; /* xanh xám đậm */
+  --muted: #8fb7db; /* xanh dương xám dịu */
+  --danger: #312f73;
   --shadow: rgba(0, 0, 0, 0.06);
   --radius: 12px;
 }
+
+/* =============================== */
+/* 🎨 Tổng thể */
 * {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
   font-family: "Poppins", "Noto Sans", system-ui;
   background: var(--bg);
   color: var(--text);
 }
+
+/* =============================== */
+/* 🧭 Header */
 header {
   background: var(--main);
-  color: #fff;
+  color: #3fd2ad;
   padding: 12px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 8px var(--shadow);
 }
+
 header h1 {
   margin: 0;
   font-size: 18px;
 }
+
 .header-controls {
   display: flex;
   gap: 8px;
 }
+
+/* =============================== */
+/* 📦 Container */
 .wrap {
   max-width: 980px;
   margin: 22px auto;
   padding: 0 16px;
 }
+
+/* =============================== */
+/* 🗂 Tabs */
 .tabs {
   display: flex;
   gap: 8px;
   justify-content: center;
   margin-bottom: 14px;
 }
+
 .tab-btn {
   background: transparent;
   border: 0;
@@ -55,11 +72,15 @@ header h1 {
   font-weight: 600;
   color: var(--text);
 }
+
 .tab-btn.active {
   background: var(--card);
   box-shadow: 0 4px 14px var(--shadow);
   color: var(--main-dark);
 }
+
+/* =============================== */
+/* 📑 Nội dung tab */
 .tab {
   background: var(--card);
   border-radius: var(--radius);
@@ -67,27 +88,39 @@ header h1 {
   box-shadow: 0 6px 22px var(--shadow);
   display: none;
 }
+
 .tab.active {
   display: block;
 }
+
+/* =============================== */
+/* 🧱 Lưới & dòng */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
+
 .row {
   display: flex;
   gap: 8px;
   align-items: center;
 }
+
+/* =============================== */
+/* ✏️ Input */
 input,
 textarea {
   width: 100%;
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid #e1efe1;
+  border: 1px solid #d6e5ef;
   font-size: 14px;
+  background-color: #fafdff;
 }
+
+/* =============================== */
+/* 🔘 Buttons */
 .cta {
   background: var(--main);
   color: #fff;
@@ -96,18 +129,22 @@ textarea {
   border-radius: 10px;
   cursor: pointer;
   font-weight: 700;
+  transition: 0.2s ease;
 }
+
 .cta:hover {
   background: var(--main-dark);
 }
+
 .small {
   font-size: 13px;
   padding: 6px 10px;
   border-radius: 8px;
   background: #fff;
-  border: 1px solid #f1f6f1;
+  border: 1px solid #e0ecf3;
   cursor: pointer;
 }
+
 .danger {
   background: var(--danger);
   color: #fff;
@@ -116,51 +153,65 @@ textarea {
   border-radius: 8px;
   cursor: pointer;
 }
+
+/* =============================== */
+/* 🧩 Thẻ từ */
 .card {
   display: flex;
   gap: 14px;
   align-items: center;
 }
+
 .kanji {
   font-size: 44px;
   font-weight: 800;
 }
+
 .kana {
   color: var(--main-dark);
   font-weight: 600;
   margin-top: 6px;
 }
+
 .meaning {
   margin-top: 6px;
 }
+
 .example {
   margin-top: 8px;
   font-style: italic;
   color: var(--muted);
 }
+
 .card-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 8px;
 }
+
 .controls-inline {
   display: flex;
   gap: 8px;
   align-items: center;
 }
+
 .icon-btn {
-  background: #f1fbf1;
+  background: #f1fbff;
   border: 0;
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
 }
+
+/* =============================== */
+/* 🟩 Nút đánh giá */
 .grade-row {
   display: flex;
   gap: 8px;
   margin-top: 12px;
 }
+
 .grade-btn {
   flex: 1;
   padding: 10px;
@@ -169,6 +220,7 @@ textarea {
   cursor: pointer;
   font-weight: 700;
 }
+
 .grade-btn[data-q="0"] {
   background: #f8d7da;
   color: #721c24;
@@ -185,32 +237,35 @@ textarea {
   background: var(--main);
   color: #fff;
 }
-.hidden {
-  display: none;
-}
-.small.muted {
-  color: var(--muted);
-}
+
+/* =============================== */
+/* 📋 Bảng */
 .table-wrap {
   overflow: auto;
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
 }
+
 th,
 td {
   padding: 8px;
-  border-bottom: 1px solid #f1f3f1;
+  border-bottom: 1px solid #e1edf5;
   text-align: left;
   font-size: 14px;
 }
+
 td img {
   width: 56px;
   height: 40px;
   object-fit: cover;
   border-radius: 6px;
 }
+
+/* =============================== */
+/* 🐼 Panda */
 .panda {
   position: fixed;
   right: 18px;
@@ -220,6 +275,7 @@ td img {
   transform-origin: top center;
   filter: drop-shadow(0 6px 20px #0002);
 }
+
 @keyframes swing {
   0% {
     transform: rotate(0);
@@ -236,26 +292,10 @@ td img {
   100% {
     transform: rotate(0);
   }
-} /* chart */
-.chart {
-  display: flex;
-  gap: 8px;
-  align-items: flex-end;
-  height: 140px;
-  padding: 10px;
-  background: linear-gradient(180deg, #fff, #f7fdf7);
-  border-radius: 10px;
 }
-.bar {
-  flex: 1;
-  border-radius: 6px 6px 0 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  color: #fff;
-  font-weight: 700;
-  padding-bottom: 6px;
-} /* rose leaf decorative */
+
+/* =============================== */
+/* 🌹 Hoa rơi */
 .rose-container {
   position: fixed;
   left: 0;
@@ -274,6 +314,7 @@ td img {
   opacity: 0.9;
   animation: fall linear infinite;
 }
+
 @keyframes fall {
   0% {
     transform: translateY(-10%) rotate(0deg);
@@ -284,17 +325,16 @@ td img {
     opacity: 0.3;
   }
 }
-.hidden {
-  display: none;
-}
+
+/* =============================== */
 /* 🌙 DARK MODE */
 body.dark {
-  --main: #a0d468;
-  --main-dark: #4a8c2c;
-  --bg: #121212;
-  --text: #f0f0f0;
-  --card-bg: #1e1e1e;
-  --border: #333;
+  --main: #6baed6;
+  --main-dark: #4a90c2;
+  --bg: #0e1a24;
+  --text: #eaf4f9;
+  --card-bg: #1c2b3a;
+  --border: #324759;
   background-color: var(--bg);
   color: var(--text);
 }
@@ -309,13 +349,20 @@ body.dark header {
 }
 
 body.dark button {
-  background-color: #333;
-  color: #f0f0f0;
+  background-color: #324759;
+  color: #eaf4f9;
 }
 
 body.dark input,
 body.dark textarea {
-  background-color: #222;
-  color: #f0f0f0;
-  border: 1px solid #444;
+  background-color: #1e2e3d;
+  color: #eaf4f9;
+  border: 1px solid #3a4f5f;
+}
+/* đảm bảo .hidden thực sự ẩn phần tử */
+.hidden {
+  display: none !important;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
 }

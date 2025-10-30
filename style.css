@@ -1,4 +1,3 @@
-/* 🍃 Style pastel cho SRS Tiếng Trung — Quin (xanh dương pastel sữa ấm) */
 :root {
   --main: #a7c7e7;
   --main-dark: #8fb7db;
@@ -10,7 +9,6 @@
   --shadow: rgba(0, 0, 0, 0.06);
   --radius: 12px;
 }
-
 * {
   box-sizing: border-box;
 }
@@ -37,7 +35,6 @@ header h1 {
   display: flex;
   gap: 8px;
 }
-
 .wrap {
   max-width: 980px;
   margin: 22px auto;
@@ -73,7 +70,6 @@ header h1 {
 .tab.active {
   display: block;
 }
-
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -84,16 +80,14 @@ header h1 {
   gap: 8px;
   align-items: center;
 }
-
 input,
 textarea {
   width: 100%;
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid #e9f2f7;
+  border: 1px solid #e1efe1;
   font-size: 14px;
 }
-
 .cta {
   background: var(--main);
   color: #fff;
@@ -106,7 +100,6 @@ textarea {
 .cta:hover {
   background: var(--main-dark);
 }
-
 .small {
   font-size: 13px;
   padding: 6px 10px;
@@ -123,7 +116,6 @@ textarea {
   border-radius: 8px;
   cursor: pointer;
 }
-
 .card {
   display: flex;
   gap: 14px;
@@ -146,7 +138,6 @@ textarea {
   font-style: italic;
   color: var(--muted);
 }
-
 .card-meta {
   display: flex;
   justify-content: space-between;
@@ -159,13 +150,12 @@ textarea {
   align-items: center;
 }
 .icon-btn {
-  background: #f1fbff;
+  background: #f1fbf1;
   border: 0;
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
 }
-
 .grade-row {
   display: flex;
   gap: 8px;
@@ -195,14 +185,12 @@ textarea {
   background: var(--main);
   color: #fff;
 }
-
 .hidden {
   display: none;
 }
 .small.muted {
   color: var(--muted);
 }
-
 .table-wrap {
   overflow: auto;
 }
@@ -223,7 +211,6 @@ td img {
   object-fit: cover;
   border-radius: 6px;
 }
-
 .panda {
   position: fixed;
   right: 18px;
@@ -249,16 +236,14 @@ td img {
   100% {
     transform: rotate(0);
   }
-}
-
-/* chart */
+} /* chart */
 .chart {
   display: flex;
   gap: 8px;
   align-items: flex-end;
   height: 140px;
   padding: 10px;
-  background: linear-gradient(180deg, #fff, #f7fcff);
+  background: linear-gradient(180deg, #fff, #f7fdf7);
   border-radius: 10px;
 }
 .bar {
@@ -270,9 +255,7 @@ td img {
   color: #fff;
   font-weight: 700;
   padding-bottom: 6px;
-}
-
-/* rose leaf decorative */
+} /* rose leaf decorative */
 .rose-container {
   position: fixed;
   left: 0;
@@ -300,6 +283,9 @@ td img {
     transform: translateY(110vh) rotate(360deg);
     opacity: 0.3;
   }
+}
+.hidden {
+  display: none;
 }
 /* 🌙 DARK MODE */
 body.dark {

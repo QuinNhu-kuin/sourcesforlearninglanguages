@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SRS Tiếng Nhật — Quin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>🍃 SRS Tiếng Nhật — Quin</h1>
+        <div class="header-controls">
+            <button id="exportBtn" class="small">Xuất JSON</button>
+            <input id="importFile" type="file" accept=".json" class="hidden" />
+            <button id="importBtn" class="small">Nhập JSON</button>
+            <button id="clearAll" class="danger small">Xóa tất cả</button>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <nav class="tabs">
+            <button class="tab-btn active" data-target="tab-add">➕ Thêm từ</button>
+            <button class="tab-btn" data-target="tab-review">📘 Ôn tập</button>
+            <button class="tab-btn" data-target="tab-list">📚 Danh sách</button>
+            <button class="tab-btn" data-target="tab-stats">📊 Thống kê</button>
+        </nav>
+
+        <!-- Thêm từ -->
+        <section id="tab-add" class="tab active">
+            <h2>Thêm từ tiếng Nhật</h2>
+            <div class="grid">
+                <div>
+                    <label>Kanji / Từ (bắt buộc)</label>
+                    <input id="inp-kanji" placeholder="VD: 学生">
+                    <label>Kana (hiragana/katakana)</label>
+                    <input id="inp-kana" placeholder="VD: がくせい">
+                    <label>Ý nghĩa (VN/EN) (bắt buộc)</label>
+                    <input id="inp-meaning" placeholder="VD: học sinh">
+                </div>
+                <div>
+                    <label>Ví dụ (ví dụ: 私は学生です)</label>
+                    <textarea id="inp-example" rows="4" placeholder="Ví dụ sử dụng từ"></textarea>
+                    <label>Link audio (mp3/wav) — tuỳ chọn</label>
+                    <input id="inp-audio" placeholder="https://.../sound.mp3">
+                    <label>Link ảnh minh hoạ (jpg/png) — tuỳ chọn</label>
+                    <input id="inp-image" placeholder="https://.../img.jpg">
+                </div>
+            </div>
+            <div class="row">
+                <button id="btn-add" class="cta">Lưu từ</button>
+                <div id="addMsg" class="small muted" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <!-- Ôn tập -->
+        <section id="tab-review" class="tab">
+            <h2>Ôn tập hôm nay <span id="dueCount" class="small muted"></span></h2>
+            <div id="reviewArea">
+                <div id="noDue" class="muted">Không có từ đến hạn hôm nay 🎉</div>
+
+                <div id="card" class="card hidden">
+                    <div class="card-top">
+                        <div id="card-image-container"></div>
+                        <div>
+                            <div id="card-kanji" class="kanji"></div>
+                            <div id="card-kana" class="kana hidden"></div>
+                            <div id="card-meaning" class="meaning hidden"></div>
+                            <div id="card-example" class="example hidden"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-meta">
+                        <div id="queueMeta" class="small muted"></div>
+                        <div class="controls-inline">
+                            <button id="playAudioBtn" class="icon-btn hidden" title="Phát âm">🔊</button>
+                            <button id="showMeaningBtn" class="small">Hiện nghĩa</button>
+                        </div>
+                    </div>
+
+                    <div class="grade-row">
+                        <button class="grade-btn" data-q="0">Quên</button>
+                        <button class="grade-btn" data-q="2">Khó</button>
+                        <button class="grade-btn" data-q="3">Tốt</button>
+                        <button class="grade-btn" data-q="4">Dễ</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Danh sách -->
+        <section id="tab-list" class="tab">
+            <h2>📚 Danh sách từ đã lưu</h2>
+            <div class="row" style="margin-bottom:8px;">
+                <input id="searchBox" placeholder="Tìm theo Kanji / Kana / Nghĩa" style="flex:1">
+                <button id="refreshList" class="small">Làm mới</button>
+            </div>
+
+            <div class="table-wrap">
+                <table id="wordTable">
+                    <thead>
+                        <tr>
+                            <th>Kanji</th>
+                            <th>Kana</th>
+                            <th>Ý nghĩa</th>
+                            <th>Ví dụ</th>
+                            <th>Ảnh</th>
+                            <th>Next</th>
+                            <th>🔊</th>
+                            <th>❌</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Thống kê -->
+        <section id="tab-stats" class="tab">
+            <h2>📊 Thống kê</h2>
+            <p>Tổng số từ: <b id="statTotal">0</b> · Đến hạn hôm nay: <b id="statDue">0</b></p>
+            <div class="chart" id="chart"></div>
+        </section>
+
+    </main>
+
+
+    <div class="rose-container" aria-hidden="true"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
